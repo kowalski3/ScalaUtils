@@ -5,7 +5,7 @@ import java.io._
 
 object run extends App{
   
-  val writer = new PrintWriter(new File("test.txt" ))
+  val writer = new PrintWriter(new File("C:/Julian/git/scalaTools/data/test.txt" ))
   
   val x = new DataMap
   x.scan
