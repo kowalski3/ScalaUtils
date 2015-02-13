@@ -1,4 +1,4 @@
-package main
+package xml
 
 class SfPage (val startTime: Double,
               val endTime: Double,

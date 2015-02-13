@@ -1,4 +1,4 @@
-package main
+package xml
 
 class SfLine (val lineText: String){
   

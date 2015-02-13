@@ -1,4 +1,4 @@
-package main
+package xml
 
 /*
  * https://bcomposes.wordpress.com/2012/05/04/basic-xml-processing-with-scala/
