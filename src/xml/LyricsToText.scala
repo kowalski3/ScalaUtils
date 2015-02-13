@@ -4,15 +4,14 @@ package xml
  * Takes an xml file, extracts all text elements and writes contents to txt file with same filename
  */
 
-object LyricsToText extends App {
+object LyricsToText  {
   import java.io.File
   import scala.collection.JavaConversions._
   
-  val directory = "C:/Users/Julian.SUNFLYKARAOKE/Desktop/K Chan Swear Check/NEED CHECKING"
   
-    println(getFileTree(new File(directory))
-     .filter(_.getName.endsWith(".xml"))
-     .foreach(xmlToTextFile))
+  def extractLyrics(directory: String) =
+    getFileTree(new File(directory)).filter(_.getName.endsWith(".xml"))
+                                    .foreach(xmlToTextFile)
   
   
   def getFileTree(f: File): Stream[File] =
@@ -33,7 +32,11 @@ object LyricsToText extends App {
 
      }
   
-  
-   
-   
 }
+
+object RunLyricsToText extends App{
+  val directory = "C:/Users/Julian.SUNFLYKARAOKE/Desktop/K Chan Swear Check/NEED CHECKING"
+  LyricsToText.extractLyrics(directory)
+}
+ 
+   
