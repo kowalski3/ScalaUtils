@@ -1,5 +1,9 @@
 package xml
 
+
+// line doesn't need to be its own class, this is for lyric page type
+
+
 class SfLine (val lineText: String){
   
   val matrix = Array.ofDim[String](lineText.length)
