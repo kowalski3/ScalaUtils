@@ -7,7 +7,7 @@ object run extends App{
   
   val writer = new PrintWriter(new File("C:/Julian/git/scalaTools/data/test.txt" ))
   
-  val x = new DataMap
+  val x = new DataMap("C:/Julian/git/scalaTools/data/spotifyData.csv")
   x.scan
   for ((key, value) <- x.albums) writer.write(value.toString)
   
@@ -16,10 +16,10 @@ object run extends App{
 
 
 
-class DataMap {
+class DataMap (val fileName: String){
  
   val albums = Map[String,Album]()
-  val file = scala.io.Source.fromFile("C:/Julian/git/scalaTools/data/spotifyData.csv")
+  val file = scala.io.Source.fromFile(fileName)
  
   
 
