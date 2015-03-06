@@ -3,90 +3,71 @@ package fileTools
 import scala.collection.mutable.Map
 import scala.collection.mutable.ListBuffer
 import java.io._
+import myUtils.WalkFileTree
 
 
 object ProductCreatorRun extends App {
-  val x = new ProductCreator("")
+  
+  val sourceDir = "C:/Julian/git/scalaTools"
+  val dataFile ="C:/Julian/git/scalaTools/data/ProductCreatorData.csv"
+  
+  val x = new ProductCreator(sourceDir, dataFile)
+  
+ println( x.createProduct("SF345", ".wav"))
+  
 }
 
 
-
-class ProductCreator {
+//TO DO - Fix -> mixing java and scala io here.
+class ProductCreator(val sourceDir: File) {
   
   val albumMap = Map[String,Album]()
   
-  //var productMap = 0
-  
-  def this(fileName: String) = {
-    this()
-    val file = scala.io.Source.fromFile(fileName)
+  def this(sourceDirName: String, dataFileName: String) = {
+    this(new File (sourceDirName))
+    val dataFile = scala.io.Source.fromFile(dataFileName)
     
   
-    for (lines <- file.getLines()) {
+    for (lines <- dataFile.getLines()) {
        // Get values from line
        val line = lines.split(",") 
 
        val albumid:String = line(0)
-       val discNo:String = line(1) //need better of handling this
-       val albumTrackNo:String = line(2)
-       val sfid:String = line(3) 
-       val artistTrackName =line(4)
+       val sfid:String = line(1) //need better of handling this
+       val fileName:String = line(2)
+   
        
        // Check if album already in map and add if not
        val result = albumMap.get(albumid)
        result match{
-         case None => if(discNo.length == 0) 
-                         albumMap.put(albumid, new AlbumNoDisc(albumid))
-                       else
-                         albumMap.put(albumid, new AlbumWithDisc(albumid))
+         case None => albumMap.put(albumid, new Album(albumid))        
          case Some(x) =>
        }
+       
 
-       albumMap.get(albumid).get.addTrack(albumTrackNo, sfid, discNo, artistTrackName)
-         
+       albumMap.get(albumid).get.addTrack(sfid, fileName)
+    } 
+    
+  }//constructor end
+  
+    def createProduct(albumid: String, format: String) = {
+      val result = albumMap.get(albumid)
+      
+      result match{
+         case None => println("Product code " + albumid + " doesn't exist.")
+         case Some(album) => 
+           for ( (songid, fileName) <- album.trackList) 
+             WalkFileTree.walkTree(sourceDir)
+             //println(songid)
+       }
     }
-
-    //constructor ends here
-  
- }
-}
-
-
-trait Album{
-  def addTrack(albumTrackNo:String, sfid:String, discNo: String, artistTrackName:String)
-  
-}
-
-
-class AlbumNoDisc(val albumid: String) extends Album{  
-  private val trackList = ListBuffer[Track]()
-  
- @Override 
- def addTrack(albumTrackNo:String, sfid:String, discNo: String, artistTrackName:String) = {
-    trackList += new Track(albumTrackNo, sfid, artistTrackName)
-  }
-}
-
-class AlbumWithDisc(albumid: String) extends Album{
-  private val discMap = Map[String,ListBuffer[Track]]() //map from discno to tracklist
-  
-  @Override 
-  def addTrack(albumTrackNo:String, sfid:String, discNo: String, artistTrackName:String) = {
-    val result = discMap.get(discNo)
-    result match{
-      case None =>   discMap.put(discNo, new ListBuffer[Track]())
-      case Some(x) =>
-     }
     
     
-    discMap.get(discNo).get.+=(new Track(albumTrackNo, sfid, artistTrackName))
     
-  }
 }
-           
-  
-class Track(val albumTrackNo:String, 
-            val sfid: String, 
-            val artistTrackName:String)
+
+
+
+
 
 
