@@ -13,5 +13,12 @@ case class Album(val albumid: String) {
  def addTrack(sfid: String, fileName:String) = {
     trackList.put(sfid, fileName)
   }
+  
+  // TO DO change this to functional iteration of map
+ def getAlbumIds: ListBuffer[String] = {
+   val albumIds = ListBuffer[String]()
+   for ( (songid, fileName) <- trackList){ albumIds += "SF" + songid } 
+   albumIds
+ }
  
 }

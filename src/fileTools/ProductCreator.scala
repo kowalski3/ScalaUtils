@@ -3,28 +3,30 @@ package fileTools
 import scala.collection.mutable.Map
 import scala.collection.mutable.ListBuffer
 import java.io._
-import myUtils.WalkFileTree
+import myUtils.MyFileUtils
 
 
 object ProductCreatorRun extends App {
   
-  val sourceDir = "C:/Julian/git/scalaTools"
-  val dataFile ="C:/Julian/git/scalaTools/data/ProductCreatorData.csv"
+  val sourceDirName = "C:/Julian/git"
+  val destDirName = "C:/Julian/junk"
   
-  val x = new ProductCreator(sourceDir, dataFile)
+  val dataFileName = "C:/Julian/git/scalaTools/data/ProductCreatorData.csv"
   
- println( x.createProduct("SF345", ".wav"))
+  val x = new ProductCreator(sourceDirName, destDirName, dataFileName)
+  
+  println( x.createProduct("SF345", ".wav"))
   
 }
 
 
 //TO DO - Fix -> mixing java and scala io here.
-class ProductCreator(val sourceDir: File) {
+class ProductCreator(val sourceDir: File, val destDir: File) {
   
   val albumMap = Map[String,Album]()
   
-  def this(sourceDirName: String, dataFileName: String) = {
-    this(new File (sourceDirName))
+  def this(sourceDirName: String, destDirName: String, dataFileName: String) = {
+    this(new File (sourceDirName), new File (destDirName))
     val dataFile = scala.io.Source.fromFile(dataFileName)
     
   
@@ -56,18 +58,16 @@ class ProductCreator(val sourceDir: File) {
       result match{
          case None => println("Product code " + albumid + " doesn't exist.")
          case Some(album) => 
-           for ( (songid, fileName) <- album.trackList) 
-             WalkFileTree.walkTree(sourceDir)
-             //println(songid)
+           
+           for (songid <- album.getAlbumIds){ 
+             
+             for(f <- MyFileUtils.walkTree(sourceDir) 
+                 if f.getName.contains(songid)) println(songid)
+             }
        }
-    }
+      
+     }
     
     
     
 }
-
-
-
-
-
-
