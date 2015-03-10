@@ -17,17 +17,9 @@ object MyFileUtils {
   
   
   def copyFile(src: File, dest: File){
-    
     new FileOutputStream(dest) getChannel() transferFrom(
        new FileInputStream(src) getChannel, 0, Long.MaxValue)
   }
-  
-  
+   
 }
       
-//object Test extends App {
-//  val dir = new File("C:/Julian/git/scalaTools")
-//  for(f <- WalkFileTree.walkTree(dir) 
-//      if f.getName.endsWith(".scala")) println(f)
-//}
-//      

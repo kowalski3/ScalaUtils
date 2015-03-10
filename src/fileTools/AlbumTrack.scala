@@ -6,7 +6,7 @@ import scala.collection.mutable.Map
 /*
  * ALBUM CLASSES
  */
-case class Album(val albumid: String) {  
+class Album(val albumid: String) {  
   val trackList = Map[String, String]() //map from songid to filename
   
 
@@ -15,10 +15,10 @@ case class Album(val albumid: String) {
   }
   
   // TO DO change this to functional iteration of map
- def getAlbumIds: ListBuffer[String] = {
+ def getAlbumIds: String = {
    val albumIds = ListBuffer[String]()
-   for ( (songid, fileName) <- trackList){ albumIds += "SF" + songid } 
-   albumIds
+   for ( (songid, fileName) <- trackList){ albumIds += "SF" + songid} 
+   albumIds.mkString(" OR ")
  }
  
 }
