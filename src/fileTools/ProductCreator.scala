@@ -3,7 +3,8 @@ package fileTools
 import scala.collection.mutable.Map
 import scala.collection.mutable.ListBuffer
 import java.io._
-import myUtils.MyFileUtils
+import myUtils._
+import java.nio.file._
 
 
 /*
@@ -20,7 +21,7 @@ import myUtils.MyFileUtils
 //TO DO - Check data for special characters like , that might cause java.io.FileNotFoundException
 //TO DO - To run quickly needs to map harddrive as it goes
 class ProductCreator(
-                      val sourceDir: File, 
+                      val sourceDirName: String, 
                       val destDirName: String) {
     
     val albumMap = Map[String,Album]()
@@ -31,7 +32,7 @@ class ProductCreator(
    */
   def this(sourceDirName: String, destDirName: String, dataFileName: String) = {
     
-    this(new File (sourceDirName),destDirName)
+    this(sourceDirName, destDirName)
     val dataFile = scala.io.Source.fromFile(dataFileName)
     
     for (lines <- dataFile.getLines()) {
@@ -79,7 +80,7 @@ class ProductCreator(
            for ((songid,trackName) <- result.get.trackList)
                try{
                  println(songid)
-                copyFiles(songid, suffixes, trackName) 
+                 copyFiles(songid, suffixes, trackName) 
                } catch{
                  case e: RuntimeException => println(e)
                }     
@@ -105,28 +106,25 @@ class ProductCreator(
      * Traverses the track in the album and calls copyFile for eachTrack
      * 
      */
-    def copyFiles(songid:String, suffixes:ListBuffer[String], newTrackName:String) {
-     
-      for(suffix <- suffixes) copyFile(songid, suffix, newTrackName)
-    }
+    
 
     
-    /**
-     * Copy file
-     */
-   def copyFile(songid:String, suffix:String, newTrackName:String) {
+    def copyFiles(songid:String, suffixes:ListBuffer[String], newTrackName:String) {
      
-    for(f <- MyFileUtils.walkTree(sourceDir)){
-      if (f.getName.contains(songid) && (f.getName.endsWith(suffix))){
-          f
-        MyFileUtils.copyFile(f, new File(destDirName + "/" + newTrackName + suffix))
-          return
-      }
-    }
-    throw new RuntimeException("Warning " + songid + " in " + suffix + " format not found in " + sourceDir)
-   }
-
+     val files = suffixes.foreach { suffix =>  
+       val pattern = "SF" + songid + "*" + suffix
+       val filePath = FindFile.go(sourceDirName, pattern)
+       if (filePath != null){
+         MyFileUtils.copyFile(new File(filePath.toString()), new File(destDirName + "/" + newTrackName + suffix))  
+       }   
+     }
+     }     
+      
+      
 }
+
+    
+
 
 
 /**
@@ -134,10 +132,15 @@ class ProductCreator(
  * 
  */
 object ProductCreatorRun extends App {
-      val sourceDirName = "C:/Users/Julian.SUNFLYKARAOKE/Desktop/testSrc"
+      val sourceDirName = "W:/SUNFLYGroundZERO/1 Assets"
       val destDirName = "C:/Users/Julian.SUNFLYKARAOKE/Desktop/testDest"
       val dataFileName = "C:/Julian/git/scalaTools/data/ProductCreatorData.csv"
       val x = new ProductCreator(sourceDirName, destDirName, dataFileName)
-      println(x.getFileNames("SF349"))
+      //println(x.getFileNames("SF349"))
       x.createProduct("SF349", "xml")  
+ 
+      
+      
+        
+       
 }
