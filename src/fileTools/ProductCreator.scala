@@ -18,8 +18,9 @@ import java.nio.file._
 
 
 //TO DO - Fix -> mixing java and scala io here.
-//TO DO - Check data for special characters like , that might cause java.io.FileNotFoundException
+//TO DO - Check data for special characters like , / ?  that might cause java.io.FileNotFoundException
 //TO DO - To run quickly needs to map harddrive as it goes
+//To DO - Deal better with files that aren't found
 class ProductCreator(
                       val sourceDirName: String, 
                       val destDirName: String) {
@@ -132,15 +133,17 @@ class ProductCreator(
  * 
  */
 object ProductCreatorRun extends App {
-      val sourceDirName = "W:/SUNFLYGroundZERO/1 Assets"
+      val sourceDirName = "W:/SUNFLYGroundZERO/2 Video Formats"
       val destDirName = "C:/Users/Julian.SUNFLYKARAOKE/Desktop/testDest"
       val dataFileName = "C:/Julian/git/scalaTools/data/ProductCreatorData.csv"
-      val x = new ProductCreator(sourceDirName, destDirName, dataFileName)
+      val pcreator = new ProductCreator(sourceDirName, destDirName, dataFileName)
       //println(x.getFileNames("SF349"))
-      x.createProduct("SF349", "xml")  
- 
       
+      val albumsIds = Array("SFSS-001","SFSS-002")
+      val format = "mp4"
       
-        
-       
+      albumsIds.foreach { 
+        albumId => pcreator.createProduct(albumId, format)
+        }
+    
 }
