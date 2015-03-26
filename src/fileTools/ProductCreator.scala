@@ -93,7 +93,8 @@ class ProductCreator(
        val suffixes = new ListBuffer[String]
       format match {
         case "xml" => suffixes += ".xml"  += ".mp3"
-        case "mp4" => suffixes += ".mp4"
+        case "mp4HD" => suffixes += ".mp4"
+        case "mp4mp3g" => suffixes += ".m4v"
         case "mov" => suffixes += ".mov"
         case "mp3g zip" => suffixes += ".zip"
         case "mp3g" => suffixes += ".cdg" += ".mp3"
@@ -134,7 +135,7 @@ class ProductCreator(
  */
 object ProductCreatorRun extends App {
      // val sourceDirName = "W:/SUNFLYGroundZERO/2 Video Formats"
-       val sourceDirName = "Z:/Sunfly MP3+G - Standard 128bit Library/! SUNFLY UNIQUE"  
+       val sourceDirName = "Z:/Sunfly MP4 Library/! SUNFLY UNIQUE"  
   
       val destDirName = "C:/Users/Julian.SUNFLYKARAOKE/Desktop/productCreator"
       val dataFileName = "C:/Julian/git/scalaTools/data/ProductCreatorData.csv"
