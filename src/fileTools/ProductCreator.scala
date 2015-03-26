@@ -96,7 +96,7 @@ class ProductCreator(
         case "mp4" => suffixes += ".mp4"
         case "mov" => suffixes += ".mov"
         case "mp3g zip" => suffixes += ".zip"
-        case "mp3g " => suffixes += ".cdg" += "mp3"
+        case "mp3g" => suffixes += ".cdg" += ".mp3"
         case _ => throw new IllegalArgumentException(format + " not valid. Valid options are xml / mp4 / mov / mp3g zip / mp3g ")
       }
     }
@@ -133,14 +133,16 @@ class ProductCreator(
  * 
  */
 object ProductCreatorRun extends App {
-      val sourceDirName = "W:/SUNFLYGroundZERO/2 Video Formats"
-      val destDirName = "C:/Users/Julian.SUNFLYKARAOKE/Desktop/testDest"
+     // val sourceDirName = "W:/SUNFLYGroundZERO/2 Video Formats"
+       val sourceDirName = "Z:/Sunfly MP3+G - Standard 128bit Library/! SUNFLY UNIQUE"  
+  
+      val destDirName = "C:/Users/Julian.SUNFLYKARAOKE/Desktop/productCreator"
       val dataFileName = "C:/Julian/git/scalaTools/data/ProductCreatorData.csv"
       val pcreator = new ProductCreator(sourceDirName, destDirName, dataFileName)
       //println(x.getFileNames("SF349"))
       
-      val albumsIds = Array("SFSS-001","SFSS-002")
-      val format = "mp4"
+      val albumsIds = Array("SF350")
+      val format = "mp3g"
       
       albumsIds.foreach { 
         albumId => pcreator.createProduct(albumId, format)
