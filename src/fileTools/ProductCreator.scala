@@ -32,7 +32,7 @@ class ProductCreator(
    * Constructor
    */
   def this(sourceDirName: String, destDirName: String, dataFileName: String) = {
-    
+    //TO DO, check for special characters, they're causing crash at the moment e.g *  
     this(sourceDirName, destDirName)
     val dataFile = scala.io.Source.fromFile(dataFileName)
     
@@ -134,18 +134,22 @@ class ProductCreator(
  * 
  */
 object ProductCreatorRun extends App {
-     // val sourceDirName = "W:/SUNFLYGroundZERO/2 Video Formats"
-       val sourceDirName = "Z:/Sunfly MP4 Library/! SUNFLY UNIQUE"  
+      //TO DO change sourceDirName based on format
+    
+      val sourceDirName = "W:/SUNFLYGroundZERO/2 Video Formats"
+       //val sourceDirName = "Z:/Sunfly MP4 Library/! SUNFLY UNIQUE"  
   
       val destDirName = "C:/Users/Julian.SUNFLYKARAOKE/Desktop/productCreator"
       val dataFileName = "C:/Julian/git/scalaTools/data/ProductCreatorData.csv"
       val pcreator = new ProductCreator(sourceDirName, destDirName, dataFileName)
       //println(x.getFileNames("SF349"))
       
-      val albumsIds = Array("SF350")
-      val format = "mp3g"
+      val albumIds = for(i <- 327 to 350) yield {"SF" + i }
       
-      albumsIds.foreach { 
+      //val albumIds = Array("SF350")
+      val format = "mp4HD"
+      
+      albumIds.foreach { 
         albumId => pcreator.createProduct(albumId, format)
         }
     
