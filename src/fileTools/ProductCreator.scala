@@ -36,6 +36,7 @@ class ProductCreator(
     this(sourceDirName, destDirName)
     val dataFile = scala.io.Source.fromFile(dataFileName)
     
+    //TO DO - catch Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 0
     for (lines <- dataFile.getLines()) {
        // Get values from line
        val line = lines.split(",") 
@@ -97,14 +98,16 @@ class ProductCreator(
     
     def getFormat(format:String):ListBuffer[String] = {
        val suffixes = new ListBuffer[String]
-      format match {
+      //to do change this to enums / case objects
+       format match {
         case "xml" => suffixes += ".xml"  += ".mp3"
+        case "bin" => suffixes += ".bin"
         case "mp4HD" => suffixes += ".mp4"
         case "mp4mp3g" => suffixes += ".m4v"
         case "mov" => suffixes += ".mov"
         case "mp3g zip" => suffixes += ".zip"
         case "mp3g" => suffixes += ".cdg" += ".mp3"
-        case _ => throw new IllegalArgumentException(format + " not valid. Valid options are xml / mp4 / mov / mp3g zip / mp3g ")
+        case _ => throw new IllegalArgumentException(format + " not valid. Valid options are xml / bin / mp4/ mp4hd / mov / mp3g zip / mp3g ")
       }
     }
     
@@ -140,8 +143,9 @@ class ProductCreator(
  */
 object ProductCreatorRun extends App {
       //TO DO change sourceDirName based on format
-    
-      val sourceDirName = "W:/SUNFLYGroundZERO/2 Video Formats"
+      
+       val sourceDirName = "W:/SUNFLYGroundZERO/1 Assets"
+       //val sourceDirName = "W:/SUNFLYGroundZERO/2 Video Formats"
        //val sourceDirName = "Z:/Sunfly MP4 Library/! SUNFLY UNIQUE"  
   
       val destDirName = "C:/Users/Julian.SUNFLYKARAOKE/Desktop/productCreator"
@@ -149,13 +153,14 @@ object ProductCreatorRun extends App {
       val pcreator = new ProductCreator(sourceDirName, destDirName, dataFileName)
       //println(x.getFileNames("SF349"))
       
-      val albumIds = for(i <- 327 to 350) yield {"SF" + i }
+//      val albumIds = for(i <- 327 to 350) yield {"SF" + i }
       
-    //  val albumIds = Array("SF341")
-      val format = "mp4HD"
+      val albumIds = Array("SFDIGI-062")
+      val format = "bin"
+      pcreator.createProduct("SFDIGI-062", format)
       
-      albumIds.foreach { 
-        albumId => pcreator.createProduct(albumId, format)
-        }
+//      albumIds.foreach { 
+//        albumId => pcreator.createProduct(albumId, format)
+//        }
     
 }
