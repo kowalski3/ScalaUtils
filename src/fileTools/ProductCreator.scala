@@ -32,7 +32,7 @@ class ProductCreator(
    * Constructor
    */
   def this(sourceDirName: String, destDirName: String, dataFileName: String) = {
-    //TO DO, check for special characters, they're causing crash at the moment e.g *  
+    //TO DO, check for special characters, they're causing crash at the moment e.g Catch these errors / handle.
     this(sourceDirName, destDirName)
     val dataFile = scala.io.Source.fromFile(dataFileName)
     
@@ -71,6 +71,12 @@ class ProductCreator(
    * Create Product
    */
     def createProduct(albumid: String, format: String) = {
+      import java.io.File
+      
+      val albumFolderPath = destDirName + "/" + albumid
+      //the path for album including sub dir
+      val dir = new File(albumFolderPath);
+      dir.mkdir();
       
       val suffixes = getFormat(format)
       
@@ -81,7 +87,7 @@ class ProductCreator(
            for ((songid,trackName) <- result.get.trackList)
                try{
                  println(songid)
-                 copyFiles(songid, suffixes, trackName) 
+                 copyFiles(albumFolderPath, songid, suffixes, trackName) 
                } catch{
                  case e: RuntimeException => println(e)
                }     
@@ -111,13 +117,12 @@ class ProductCreator(
     
 
     
-    def copyFiles(songid:String, suffixes:ListBuffer[String], newTrackName:String) {
-     
+    def copyFiles(albumFolderPath:String, songid:String, suffixes:ListBuffer[String], newTrackName:String) {   
      val files = suffixes.foreach { suffix =>  
        val pattern = "SF" + songid + "*" + suffix
        val filePath = FindFile.go(sourceDirName, pattern)
        if (filePath != null){
-         MyFileUtils.copyFile(new File(filePath.toString()), new File(destDirName + "/" + newTrackName + suffix))  
+         MyFileUtils.copyFile(new File(filePath.toString()), new File(albumFolderPath + "/" + newTrackName + suffix))  
        }   
      }
      }     
@@ -146,7 +151,7 @@ object ProductCreatorRun extends App {
       
       val albumIds = for(i <- 327 to 350) yield {"SF" + i }
       
-      //val albumIds = Array("SF350")
+    //  val albumIds = Array("SF341")
       val format = "mp4HD"
       
       albumIds.foreach { 
