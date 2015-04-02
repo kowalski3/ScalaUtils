@@ -22,7 +22,9 @@ import java.nio.file._
 //TO DO - To run quickly needs to map harddrive as it goes
 //To DO - Deal better with files that aren't found
 class ProductCreator(
-                      val sourceDirName: String, 
+                      val assetSourceDirName: String, 
+                      val formatSourceDirName: String,
+                      val oldSourceDirName: String,
                       val destDirName: String) {
     
     val albumMap = Map[String,Album]()
@@ -31,9 +33,9 @@ class ProductCreator(
   /**
    * Constructor
    */
-  def this(sourceDirName: String, destDirName: String, dataFileName: String) = {
+  def this(assetSourceDirName: String, formatSourceDirName: String, oldSourceDirName: String, destDirName: String, dataFileName: String) = {
     //TO DO, check for special characters, they're causing crash at the moment e.g Catch these errors / handle.
-    this(sourceDirName, destDirName)
+    this(assetSourceDirName, formatSourceDirName, oldSourceDirName, destDirName)
     val dataFile = scala.io.Source.fromFile(dataFileName)
     
     //TO DO - catch Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 0
@@ -73,8 +75,8 @@ class ProductCreator(
    */
     def createProduct(albumid: String, format: String) = {
       import java.io.File
-      
-      val albumFolderPath = destDirName + "/" + albumid
+      //TO DO create format subdir if not already present
+      val albumFolderPath = destDirName + "/" + format +  "/" + albumid
       //the path for album including sub dir
       val dir = new File(albumFolderPath);
       dir.mkdir();
@@ -88,7 +90,7 @@ class ProductCreator(
            for ((songid,trackName) <- result.get.trackList)
                try{
                  println(songid)
-                 copyFiles(albumFolderPath, songid, suffixes, trackName) 
+                 copyFiles(albumFolderPath, songid, suffixes, trackName, format) 
                } catch{
                  case e: RuntimeException => println(e)
                }     
@@ -98,16 +100,18 @@ class ProductCreator(
     
     def getFormat(format:String):ListBuffer[String] = {
        val suffixes = new ListBuffer[String]
-      //to do change this to enums / case objects
+      //TO DO change this to enums / case objects
        format match {
-        case "xml" => suffixes += ".xml"  += ".mp3"
-        case "bin" => suffixes += ".bin"
-        case "mp4HD" => suffixes += ".mp4"
-        case "mp4mp3g" => suffixes += ".m4v"
-        case "mov" => suffixes += ".mov"
-        case "mp3g zip" => suffixes += ".zip"
-        case "mp3g" => suffixes += ".cdg" += ".mp3"
-        case _ => throw new IllegalArgumentException(format + " not valid. Valid options are xml / bin / mp4/ mp4hd / mov / mp3g zip / mp3g ")
+        case "xml" => suffixes += ".xml"  += ".mp3"     //new source asset
+        case "bin" => suffixes += ".bin"                //new source asset
+        case "mp4HD" => suffixes += ".mp4"              //new source format
+        case "mp3g320" => suffixes += ".cdg" += ".mp3"  //new source format  
+        //OLD FORMATS
+        case "m4v" => suffixes += ".m4v"                //old source format
+        case "mov" => suffixes += ".mov"                //old source format
+        case "mp3g128" => suffixes += ".cdg" += ".mp3"  //old source format 
+
+        case _ => throw new IllegalArgumentException(format + " not valid. Valid options are xml / bin / mp4HD / mp3g320 / m4v / mov / mp3g128 ")
       }
     }
     
@@ -119,11 +123,29 @@ class ProductCreator(
      */
     
 
+    //TO DO REFACTOR, TOO MANY PARAMETERS
+    def copyFiles(albumFolderPath:String, songid:String, suffixes:ListBuffer[String], newTrackName:String, format:String) {   
+     
     
-    def copyFiles(albumFolderPath:String, songid:String, suffixes:ListBuffer[String], newTrackName:String) {   
-     val files = suffixes.foreach { suffix =>  
+       val files = suffixes.foreach { suffix =>  
        val pattern = "SF" + songid + "*" + suffix
-       val filePath = FindFile.go(sourceDirName, pattern)
+       //TO DO REFACTOR
+      val souceDirName = format match {
+        case "xml" => assetSourceDirName
+        case "bin" => assetSourceDirName
+        case "mp4HD" => formatSourceDirName
+        case "mp3g320" => formatSourceDirName
+        //OLD FORMATS
+        case "m4v" => oldSourceDirName
+        case "mov" => oldSourceDirName
+        case "mp3g128" => oldSourceDirName
+ 
+       }
+  
+       
+       
+       
+       val filePath = FindFile.go(souceDirName, pattern)
        if (filePath != null){
          MyFileUtils.copyFile(new File(filePath.toString()), new File(albumFolderPath + "/" + newTrackName + suffix))  
        }   
@@ -133,8 +155,7 @@ class ProductCreator(
       
 }
 
-    
-
+ 
 
 
 /**
@@ -144,23 +165,29 @@ class ProductCreator(
 object ProductCreatorRun extends App {
       //TO DO change sourceDirName based on format
       
-       val sourceDirName = "W:/SUNFLYGroundZERO/1 Assets"
-       //val sourceDirName = "W:/SUNFLYGroundZERO/2 Video Formats"
-       //val sourceDirName = "Z:/Sunfly MP4 Library/! SUNFLY UNIQUE"  
+        //TO DO NEED REFATORING
+
+  
+  
+      val assetSourceDirName = "W:/SUNFLYGroundZERO/1 Assets"
+      val formatSourceDirName = "W:/SUNFLYGroundZERO/2 Video Formats"
+      val oldSource = "Z:/Sunfly Old Formats"  
   
       val destDirName = "C:/Users/Julian.SUNFLYKARAOKE/Desktop/productCreator"
       val dataFileName = "C:/Julian/git/scalaTools/data/ProductCreatorData.csv"
-      val pcreator = new ProductCreator(sourceDirName, destDirName, dataFileName)
-      //println(x.getFileNames("SF349"))
+      val pcreator = new ProductCreator(assetSourceDirName, formatSourceDirName, oldSource, destDirName, dataFileName)
+
       
 //      val albumIds = for(i <- 327 to 350) yield {"SF" + i }
       
       val albumIds = Array("SFDIGI-062")
-      val format = "bin"
-      pcreator.createProduct("SFDIGI-062", format)
+      val formats = Array("xml","bin","mp4HD","mp3g320","m4v","mov","mp3g128")
+ 
       
-//      albumIds.foreach { 
-//        albumId => pcreator.createProduct(albumId, format)
-//        }
+      albumIds.foreach { 
+        albumId => formats.foreach { 
+          format => pcreator.createProduct(albumId, format) 
+          }
+        }
     
 }
