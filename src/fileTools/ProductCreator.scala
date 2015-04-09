@@ -180,8 +180,9 @@ object ProductCreatorRun extends App {
       
 //      val albumIds = for(i <- 327 to 350) yield {"SF" + i }
       
-      val albumIds = Array("SFDIGI-062")
-      val formats = Array("xml","bin","mp4HD","mp3g320","m4v","mov","mp3g128")
+      val albumIds = Array("SFDIGI-018")
+      val formats = Array("mp4HD")
+      //val formats = Array("xml","bin","mp4HD","mp3g320","m4v","mov","mp3g128")
  
       
       albumIds.foreach { 
