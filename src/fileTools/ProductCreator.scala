@@ -178,13 +178,13 @@ object ProductCreatorRun extends App {
       val pcreator = new ProductCreator(assetSourceDirName, formatSourceDirName, oldSource, destDirName, dataFileName)
 
       
-//      val albumIds = for(i <- 327 to 350) yield {"SF" + i }
+     // val albumIds = for(i <- 331 to 336) yield {"SF" + i }
       
-      val albumIds = Array("SFDIGI-018")
-      val formats = Array("mp4HD")
+      val albumIds = Array("SFD801","SFD901", "SFD701", "SFHT005", "SFHT008","SF015")
+      //val formats = Array("mp4HD")
       //val formats = Array("xml","bin","mp4HD","mp3g320","m4v","mov","mp3g128")
  
-      
+      val formats = Array("bin")
       albumIds.foreach { 
         albumId => formats.foreach { 
           format => pcreator.createProduct(albumId, format) 
