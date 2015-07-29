@@ -2,6 +2,7 @@ package dataParse
 
 import scala.collection.mutable.ListBuffer
 import scala.collection.mutable.Map
+import java.io._
 
 /**
  * Imports a CSV of album data and returns the CSV ready for import into CMS
@@ -12,6 +13,14 @@ import scala.collection.mutable.Map
 class AlbumDataPrep(val sourceFileName:String) {
   val albumMap = Map[String, SFAlbum]()
   val file = scala.io.Source.fromFile(sourceFileName)
+  
+  
+  def writeToFile(path: String, txt: String): Unit = {
+     val pw = new PrintWriter(new File(path ))
+     pw.write(txt)
+     pw.close   
+    }
+  
   
   def prepData{
      for (lines <- file.getLines()) {
@@ -114,6 +123,8 @@ class SFAlbumTrack(val discNo_1: Int,
   }
   
   
+  
+  
 }
    
                    
@@ -121,9 +132,14 @@ object AlbumPrepRunner extends App{
   
   val albumPrep = new AlbumDataPrep("C:/Julian/git/scalaTools/data/albumDataPrep.csv")
   albumPrep.prepData
+  
+  var str = new StringBuffer()
   for ((key, value) <- albumPrep.albumMap){
-   println(value.getAlbumData)
+   
+    str.append(value.getAlbumData)
   }
+  
+  albumPrep.writeToFile("C:/Julian/git/scalaTools/output/albumPrep.txt", str.toString())
   
   
 }
