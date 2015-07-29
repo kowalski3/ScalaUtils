@@ -118,7 +118,7 @@ class SFAlbumTrack(val discNo_1: Int,
     discNo_1.toString() + "," +
     trackNo_2.toString() + "," +
     productCode3.toString() + "," +
-    trackSku_4.toString()
+    "SF" + trackSku_4.toString()
     
   }
   
