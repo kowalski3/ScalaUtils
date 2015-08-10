@@ -173,15 +173,17 @@ object ProductCreatorRun extends App {
       val formatSourceDirName = "W:/SUNFLYGroundZERO/2 Video Formats"
       val oldSource = "Z:/Sunfly Old Formats"  
   
-      val destDirName = "C:/Users/Julian.SUNFLYKARAOKE/Desktop/productCreator"
+      val destDirName = "C:/Julian/output/productCreator"
+      
+      
       val dataFileName = "C:/Julian/git/scalaTools/data/ProductCreatorData.csv"
       val pcreator = new ProductCreator(assetSourceDirName, formatSourceDirName, oldSource, destDirName, dataFileName)
 
       
      // val albumIds = for(i <- 331 to 336) yield {"SF" + i }
       
-      val albumIds = Array("SFD801","SFD901", "SFD701", "SFHT005", "SFHT008","SF015")
-      //val formats = Array("mp4HD")
+      val albumIds = Array("MW803" , "MW804" , "MW805" , "MW807" , "MW813" , "MW814" , "MW816" , "MW821" , "MW822" , "MW824" , "MW826" , "MW833" , "MW835" , "MW836" , "MW837" , "MW840" , "MW842" , "MW843" , "MW844" , "MW845" , "MW846" , "MW852" , "MW853" , "MW858" , "MW859" , "MW860" , "MW861" , "MW867" , "MW868" , "MW869" , "MW870" , "MW873" , "MW876" , "MW880" , "MW883" , "MW884" , "MW885" , "MW886" , "MW887" , "MW888" , "MW893" , "MW928" , "SF004" , "SF014" , "SF017" , "SF025" , "SF027" , "SF028" , "SF033" , "SF034" , "SF038" , "SF047" , "SF048" , "SF050" , "SF054" , "SF055" , "SF058" , "SF065" , "SF085" , "SF089" , "SF090" , "SF092" , "SF099" , "SF104" , "SF127" , "SF129" , "SF130" , "SF146" , "SF164" , "SF166" , "SF173" , "SF178" , "SF240" , "SF303" , "SFBZ" , "SFGD021" , "SFGD039" , "SFGD047" , "SFHT010" , "SFKK036" , "SFKK051" , "SFKK057" , "SFKK063" , "SFPL005" , "SFPL018" , "SFPL019" , "SFPL020" , "SFPL021" , "SFPL023" , "SFST" , "SFTC" , "SFWB")
+      //val formats = Array("bin")
       //val formats = Array("xml","bin","mp4HD","mp3g320","m4v","mov","mp3g128")
  
       val formats = Array("bin")

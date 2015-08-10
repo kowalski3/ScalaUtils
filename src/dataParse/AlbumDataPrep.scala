@@ -27,7 +27,7 @@ class AlbumDataPrep(val sourceFileName:String) {
         val line = lines.split("\\,", -1); //makes sure empty fields are split too
         //println(line(1))
         val albumSku_0 = line(0)
-       
+       println(line(0));
            if(line(2).isEmpty()){ //i.e column C "Track No is empty" then this is album row
        
              val range_5 = line(5)
