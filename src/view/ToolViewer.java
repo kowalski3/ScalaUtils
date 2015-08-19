@@ -2,14 +2,12 @@ package view;
 
 import dataParse.AlbumDataPrep;
 import processing.core.*;
-import controlP5.ControlEvent;
 import controlP5.ControlP5;
-import controlP5.Textarea;
 import controlP5.Textfield;
 
 public class ToolViewer extends PApplet {
 	
-	private AlbumDataPrep x;
+	//private AlbumDataPrep x;
 	private ControlP5 cp5;
 	private Textfield textfield;
 	
