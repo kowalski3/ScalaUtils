@@ -37,10 +37,11 @@ object ReplaceAllBatch extends App {
     
   
     var lines = scala.io.Source.fromFile(file).mkString
+    
  
     
     for(word <- words){
-      lines.replaceAllLiterally(word._1, word._2)
+      lines = lines.replaceAllLiterally(word._1, word._2)
     }
 
     new PrintWriter("C:/Julian/txt1/" + file.getName+"FIXED"+".txt") { write(lines); close }
