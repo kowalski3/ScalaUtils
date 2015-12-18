@@ -38,6 +38,8 @@ object ReplaceAllBatch extends App {
   val midWordBad = "[a-z][^a-zA-Z '-*-θφόίδ.,ιρακϊ?’ηνσ?γ][a-z]+".r 
   //finds words with question marks in the middle
   val questionMarkPattern = "[a-z][?][a-z]+".r 
+ // val questionMarkNotAtEnd = "\?\w+".r 
+  
   
   //PROCESS
   
