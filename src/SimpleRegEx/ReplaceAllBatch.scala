@@ -10,8 +10,9 @@ import scala.io.Source
 
 object ReplaceAllBatch extends App {
   //Source file directory
-  val directoryName = "C:/Julian/txt1"
-  val sourceDirectory = new File(directoryName)
+  val directoryInName = "C:/Julian/txtIn"
+  val directoryOutName = "C:/Julian/txtOut/"
+  val sourceInDirectory = new File(directoryInName)
   
   //SETUP words
   
@@ -22,8 +23,15 @@ object ReplaceAllBatch extends App {
     val x = line.split(",")
     if(x(1).length() > 0) {
       words += ((x(0), x(1)))
-    }
+      if(! Character.isUpperCase(x(0).charAt(0))) 
+      words += ((capitaliseFirstLetter(x(0)), capitaliseFirstLetter(x(1))))
+      
+      def capitaliseFirstLetter(word:String):String = word(0).toUpper + word.substring(1, word.size -1)    
+    
   } 
+  
+  
+  }
 
   // RegEx's
   //finds words certain characters in the middle
@@ -33,7 +41,7 @@ object ReplaceAllBatch extends App {
   
   //PROCESS
   
-  for(file <- sourceDirectory.listFiles() ) {
+  for(file <- sourceInDirectory.listFiles() ) {
     
   
     var lines = scala.io.Source.fromFile(file).mkString
@@ -44,7 +52,7 @@ object ReplaceAllBatch extends App {
       lines = lines.replaceAllLiterally(word._1, word._2)
     }
 
-    new PrintWriter("C:/Julian/txt1/" + file.getName+"FIXED"+".txt") { write(lines); close }
+    new PrintWriter("C:/Julian/txtOut/" + file.getName) { write(lines); close }
   }
      
 
