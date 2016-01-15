@@ -1,4 +1,4 @@
-package myUtils
+package findCopyFiles
 
 import java.io.File
 import java.io.FileInputStream
@@ -17,7 +17,7 @@ object MyFileUtils {
   
   
   def copyFile(src: File, dest: File){
-    new FileOutputStream(dest) getChannel() transferFrom(
+    new FileOutputStream(dest)getChannel() transferFrom(
        new FileInputStream(src) getChannel, 0, Long.MaxValue)
   }
   

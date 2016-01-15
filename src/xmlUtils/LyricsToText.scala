@@ -1,8 +1,15 @@
-package xml
+package xmlUtils
 
 /*
- * Takes an xml file, extracts all text elements and writes contents to txt file with same filename
+ * Takes a directory of xml files, extracts all text elements from each one and writes contents to a new txt file 
+ * with the same filename
  */
+
+object RunLyricsToText extends App{
+  //Program starts here.  Enter the directory name below of the source directory
+  val directory = "C:/Users/Julian.SUNFLYKARAOKE/Desktop/K Chan Swear Check/NEED CHECKING"
+  LyricsToText.extractLyrics(directory)
+}
 
 object LyricsToText  {
   import java.io.File
@@ -34,9 +41,3 @@ object LyricsToText  {
   
 }
 
-object RunLyricsToText extends App{
-  val directory = "C:/Users/Julian.SUNFLYKARAOKE/Desktop/K Chan Swear Check/NEED CHECKING"
-  LyricsToText.extractLyrics(directory)
-}
- 
-   
