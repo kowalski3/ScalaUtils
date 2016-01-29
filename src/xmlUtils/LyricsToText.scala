@@ -1,14 +1,19 @@
 package xmlUtils
+import scala.io.Source
 
 /*
  * Takes a directory of xml files, extracts all text elements from each one and writes contents to a new txt file 
  * with the same filename
  */
 
-object RunLyricsToText extends App{
-  //Program starts here.  Enter the directory name below of the source directory
-  val directory = "C:/Users/Julian.SUNFLYKARAOKE/Desktop/K Chan Swear Check/NEED CHECKING"
-  LyricsToText.extractLyrics(directory)
+object RunLyricsToText {
+  
+  def run = {//Program starts here.  Enter the directory name below of the source directory
+    val directory = ".//files"
+    val x = new java.io.File(directory)
+    println(x.isDirectory());
+    LyricsToText.extractLyrics(directory)
+  }
 }
 
 object LyricsToText  {
@@ -17,6 +22,7 @@ object LyricsToText  {
   
   
   def extractLyrics(directory: String) =
+   
     getFileTree(new File(directory)).filter(_.getName.endsWith(".xml"))
                                     .foreach(xmlToTextFile)
   

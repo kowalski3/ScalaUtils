@@ -37,13 +37,13 @@ public class FindFile {
 
         // Compares the glob pattern against
         // the file or directory name.
-        void find(Path file) {
+        String find(Path file) {
             Path name = file.getFileName();
             if (name != null && matcher.matches(name)) {
                 numMatches++;
-                System.out.println(file);
                 foundFile = file.toString();
             }
+            return name.toString();
         }
 
         // Prints the total number of

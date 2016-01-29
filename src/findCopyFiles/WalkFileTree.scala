@@ -8,12 +8,12 @@ import java.io.FileOutputStream
  * http://rosettacode.org/wiki/Walk_a_directory/Recursively#Scala
  */
 object MyFileUtils { 
-  def walkTree(file: File): Iterable[File] = {
-    val children = new Iterable[File] {
-      def iterator = if (file.isDirectory) file.listFiles.iterator else Iterator.empty
-    }
-    Seq(file) ++: children.flatMap(walkTree(_))
-  }
+//  def walkTree(file: File): Iterable[File] = {
+//    val children = new Iterable[File] {
+//      def iterator = if (file.isDirectory) file.listFiles.iterator else Iterator.empty
+//    }
+//    Seq(file) ++: children.flatMap(walkTree(_))
+//  }
   
   
   def copyFile(src: File, dest: File){

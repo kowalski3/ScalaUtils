@@ -1,2 +1,8 @@
+P=
+Xplugin=
+Xplugin-disable=
+Xplugin-require=
 eclipse.preferences.version=1
 organizeimports.useProjectSpecificSettings=false
+scala.compiler.additionalParams=
+scala.compiler.installation=2.11
